@@ -4,8 +4,10 @@ int latchPin = 8;
 int clockPin = 12;
 ////Pin connected to DS of 74HC595
 int dataPin = 11;
-
+//// Pin connected to variable resistor
 int potPin = 2;
+////Pin connected to pin 13 (output enable) of 74HC595
+int outputEnablePin = 3;
 
 //holders for infromation you're going to pass to shifting function
 int  data;
@@ -42,9 +44,17 @@ void setup() {
   blinkAll_2Bytes(5,100); 
 }
 
+int cnt = 0 ;
+int adder = 1;
 void loop() {
   
   for (int j = 0; j < 17; j++) {
+    cnt+=adder;
+    if(cnt == 255) {
+      adder = -1;
+    } else if (cnt ==0) {
+      adder = 1;
+    }
     int val = analogRead(potPin);
     Serial.println(val);
     
@@ -54,6 +64,8 @@ void loop() {
     shiftOut(dataPin, clockPin, MSBFIRST, data);  
 
     digitalWrite(latchPin, HIGH);
+    analogWrite(outputEnablePin, 255- (cnt%255));
+
     delay(val/10);
   }
 }
