@@ -2,6 +2,7 @@ Using a shift register along with an variable resistor
 ======================================================
 
 Light leds using a 74HC595 SIPO shift register - use a with a variable resistor to define the delay.
+Also, leds fade over time using PWM + pin 13 of 74HC595.
 
 Components
 ----------
